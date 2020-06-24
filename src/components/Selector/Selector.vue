@@ -5,13 +5,13 @@
       v-if="selected"
       @click="handlerClick('')"
     > 
-      clear
+      &times;
     </li>
     <li
       v-for="item in list"
       :key="item.slug"
       :class="`${className}${item.slug === selected ? ` ${className}_activ` : ''}`"
-      @click="handlerClick(item.slug)"
+      @click="handlerClick(item)"
     >
       {{ item.title }}
     </li>
@@ -24,11 +24,7 @@
       list: {
         type: Array,
         required: true,
-        validator: list => list.every(item => {
-          const typeCheck = typeof item === 'object';
-          const keyCheck = ['slug', 'title'].every(key => item[key]);
-          return typeCheck && keyCheck;
-        })
+        validator: list => list.every(item => typeof item === 'object' && ['slug', 'title'].every(key => item[key]))
       },
       selected: {
         type: String,

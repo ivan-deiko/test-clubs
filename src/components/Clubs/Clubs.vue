@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul v-if="CLUBS.length">
     <transition-group name="fade" class="list-clubs">
       <Club
         v-for="club in CLUBS"
@@ -8,16 +8,32 @@
       />
     </transition-group>
   </ul>
+  <div class="clubs-empty" v-else> 
+    {{ emptyClubText }}
+  </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState, } from 'vuex'
   import { CLUBS } from '@/store/modules/clubs/getters'
   import Club from '../Club/Club'
 
   export default {
     computed: {
-      ...mapGetters('clubs', [ CLUBS ])
+      ...mapGetters('clubs', [ CLUBS ]),
+      ...mapState('cities', {
+        selectedCity: state => state.selectedCity?.title
+      }),
+      ...mapState('clubs', {
+        search: state => state.searchText
+      }),
+      emptyClubText() {
+        return this.selectedCity
+          ?
+            `В городе ${this.selectedCity} не найден этот ${this.search} клуб`
+          :
+            `${this.search} клуб не найден!`
+      }
     },
     components: {
       Club,

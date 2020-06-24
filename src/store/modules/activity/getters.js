@@ -1,3 +1,4 @@
+import { filterByCities } from '@/utils'
 export const ACTIVITIES = 'ACTIVITIES'
 
 export default {
@@ -6,7 +7,7 @@ export default {
 
     if (!clubs) return;
 
-    const newClubs = cities.selectedCity ? clubs.filter(({ city }) => city.slug === cities.selectedCity) : clubs;
+    const newClubs = cities.selectedCity ? filterByCities(clubs, cities.selectedCity.slug) : clubs;
     
     newClubs.forEach(({ activity }) => {
       activity.forEach(activ => {

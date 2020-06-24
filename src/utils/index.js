@@ -1,0 +1,1 @@
+export const filterByCities = (clubs, selectedCity) => clubs.filter(({ city }) => city.slug === selectedCity);
